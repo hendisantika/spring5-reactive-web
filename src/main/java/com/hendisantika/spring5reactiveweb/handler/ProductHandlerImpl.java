@@ -4,6 +4,7 @@ import com.hendisantika.spring5reactiveweb.model.Product;
 import com.hendisantika.spring5reactiveweb.repository.ProductRepository;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -41,4 +42,11 @@ public class ProductHandlerImpl implements ProductHandler {
         Mono<Product> product = request.bodyToMono(Product.class);
         return ServerResponse.ok().build(this.repository.saveProduct(product));
     }
+
+    @Override
+    public Mono<ServerResponse> getAllProductsFromRepository(ServerRequest request) {
+        Flux<Product> products = this.repository.getAllProducts();
+        return ServerResponse.ok().contentType(APPLICATION_JSON).body(products, Product.class);
+    }
+
 }
