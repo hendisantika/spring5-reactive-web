@@ -35,4 +35,10 @@ public class ProductHandlerImpl implements ProductHandler {
                 .flatMap(person -> ServerResponse.ok().contentType(APPLICATION_JSON).body(fromObject(person)))
                 .switchIfEmpty(notFound);
     }
+
+    @Override
+    public Mono<ServerResponse> saveProductToRepository(ServerRequest request) {
+        Mono<Product> product = request.bodyToMono(Product.class);
+        return ServerResponse.ok().build(this.repository.saveProduct(product));
+    }
 }
