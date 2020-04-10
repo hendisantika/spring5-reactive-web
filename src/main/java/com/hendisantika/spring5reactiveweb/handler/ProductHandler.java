@@ -18,4 +18,6 @@ public interface ProductHandler {
 
     Mono<ServerResponse> saveProductToRepository(ServerRequest request);
 
+    Mono<ServerResponse> getAllProductsFromRepository(ServerRequest request);
+
 }
