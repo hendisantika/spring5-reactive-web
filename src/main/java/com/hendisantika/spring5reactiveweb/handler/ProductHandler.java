@@ -15,4 +15,7 @@ import reactor.core.publisher.Mono;
  */
 public interface ProductHandler {
     Mono<ServerResponse> getProductFromRepository(ServerRequest request);
+
+    Mono<ServerResponse> saveProductToRepository(ServerRequest request);
+
 }
