@@ -1,6 +1,7 @@
 package com.hendisantika.spring5reactiveweb.repository;
 
 import com.hendisantika.spring5reactiveweb.model.Product;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,5 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ProductRepositoryInMemoryImpl implements ProductRepository {
 
     private final Map<Integer, Product> productMap = new ConcurrentHashMap<>();
+
+    @Override
+    public Mono<Product> getProduct(int id) {
+        return Mono.justOrEmpty(this.productMap.get(id));
+    }
 
 }
