@@ -30,4 +30,14 @@ public class ProductRepositoryInMemoryImpl implements ProductRepository {
         return Flux.fromIterable(this.productMap.values());
     }
 
+    @Override
+    public Mono<Void> saveProduct(Mono<Product> productMono) {
+
+        Mono<Product> pMono = productMono.doOnNext(product -> {
+            int id = productMap.size() + 1;
+            productMap.put(id, product);
+            System.out.format("Saved %s with id %d%n", product, id);
+        });
+        return pMono.thenEmpty(Mono.empty());
+    }
 }
