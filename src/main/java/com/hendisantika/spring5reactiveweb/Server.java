@@ -34,6 +34,13 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.t
  * Time: 07.16
  */
 public class Server {
+    public static void main(String[] args) throws Exception {
+        Server server = new Server();
+        server.startTomcatServer("localhost", 8080);
+        System.out.println("Press ENTER to exit.");
+        System.in.read();
+    }
+
     public RouterFunction<ServerResponse> routingFunction() {
         ProductRepository repository = new ProductRepositoryInMemoryImpl();
         ProductHandler handler = new ProductHandlerImpl(repository);
