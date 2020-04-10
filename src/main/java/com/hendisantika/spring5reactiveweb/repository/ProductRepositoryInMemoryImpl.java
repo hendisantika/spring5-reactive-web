@@ -1,6 +1,7 @@
 package com.hendisantika.spring5reactiveweb.repository;
 
 import com.hendisantika.spring5reactiveweb.model.Product;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -22,6 +23,11 @@ public class ProductRepositoryInMemoryImpl implements ProductRepository {
     @Override
     public Mono<Product> getProduct(int id) {
         return Mono.justOrEmpty(this.productMap.get(id));
+    }
+
+    @Override
+    public Flux<Product> getAllProducts() {
+        return Flux.fromIterable(this.productMap.values());
     }
 
 }
