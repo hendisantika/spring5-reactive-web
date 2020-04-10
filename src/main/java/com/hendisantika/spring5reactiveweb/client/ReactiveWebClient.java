@@ -8,10 +8,12 @@ import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeFunction;
 import org.springframework.web.reactive.function.client.ExchangeFunctions;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,5 +44,14 @@ public class ReactiveWebClient {
                 .body(BodyInserters.fromObject(shirt)).build();
         Mono<ClientResponse> response = exchange.exchange(request);
         System.out.println(response.block().statusCode());
+    }
+
+    public void getAllProduct() {
+        URI uri = URI.create(String.format("http://%s:%d/product", HOST, PORT));
+        ClientRequest request = ClientRequest.method(HttpMethod.GET, uri).build();
+        Flux<Product> productList = exchange.exchange(request)
+                .flatMapMany(response -> response.bodyToFlux(Product.class));
+        Mono<List<Product>> productListMono = productList.collectList();
+        System.out.println(productListMono.block());
     }
 }
